@@ -2,6 +2,7 @@ const divBlend = document.querySelector('div#spice-blend-detail')
 const ingredientList = document.querySelector('ul.ingredients-list')
 const updateForm = document.querySelector('form#update-form')
 const ingredientForm = document.querySelector('form#ingredient-form')
+const spiceMenu = document.querySelector('div#spice-images')
 
 
 function loadOneBlend (blend) {
@@ -32,18 +33,21 @@ function updateIngredients (ingredientsArr) {
 
 }
 
-function spotLightedSpice (){
+function spotLightedSpice (num = 1){
 
-    let blendID = 0; 
+    ingredientList.innerHTML = ""
+    let blendID = num; 
+
+    // initial spotlight -- use of blendID here can be refactored
 
     fetch(`http://localhost:3000/spiceblends`)
         .then( r => r.json())
         .then( blend => {
             
-            blendID = blend[0].id 
-            loadOneBlend(blend[0])
-            
-        })       
+            blendID = blend[num-1].id 
+            loadOneBlend(blend[num-1])
+        })  
+         
 
     fetch(`http://localhost:3000/ingredients`)
         .then (r => r.json())
@@ -51,6 +55,21 @@ function spotLightedSpice (){
             const ingredientsArray = ingredients.filter( ingredient => parseInt(ingredient.spiceblendId) === blendID).map(ingredient => ingredient.name)
             updateIngredients(ingredientsArray)
         })
+}
+
+function loadSpiceMenu () {
+
+    fetch(`http://localhost:3000/spiceblends`)
+    .then( r => r.json())
+    .then( blends => {
+        blends.forEach( blend => {
+            const imageTag = document.createElement('img')
+            imageTag.src = blend.image
+            imageTag.alt = blend.title
+            imageTag.dataset.id = blend.id 
+            spiceMenu.append(imageTag)
+        })    
+    })       
 }
 
 // Event Listeners //
@@ -95,14 +114,20 @@ ingredientForm.addEventListener('submit', event => {
         body: JSON.stringify(ingredientUpdate)})
             .then( r => r.json())
             .then( updatedObj => {
-                //refactor below? I REALLY GOT STUCK BECAUSE I WROTE inn-her-HTML
-                ingredientList.innerHTML = ""
                 // debugger
-                spotLightedSpice()
+                spotLightedSpice(event.target.dataset.id)
                 // console.log(ingredientList)
                 console.log('UPDATED:', updatedObj)
             })
 
 })
 
+spiceMenu.addEventListener('click', event => {
+    spotLightedSpice(event.target.dataset.id)
+
+})
+
 spotLightedSpice()
+loadSpiceMenu()
+
+

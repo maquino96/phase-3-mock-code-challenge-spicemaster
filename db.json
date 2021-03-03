@@ -2,7 +2,7 @@
   "spiceblends": [
     {
       "id": 1,
-      "title": "Pumpkind Spice Blend",
+      "title": "Pumpkin Spice",
       "image": "./assets/spices/pumpkinspicelatte.jpg"
     },
     {
@@ -106,31 +106,6 @@
       "name": "Pepper",
       "spiceblendId": 3,
       "id": 17
-    },
-    {
-      "name": "test",
-      "spiceblendId": "1",
-      "id": 18
-    },
-    {
-      "name": "test",
-      "spiceblendId": "1",
-      "id": 19
-    },
-    {
-      "name": "test",
-      "spiceblendId": "1",
-      "id": 20
-    },
-    {
-      "name": "TESTSPICE",
-      "spiceblendId": "1",
-      "id": 21
-    },
-    {
-      "name": "TESTING",
-      "spiceblendId": "1",
-      "id": 22
     }
   ]
 }
